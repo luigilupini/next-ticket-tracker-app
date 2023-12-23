@@ -3,7 +3,6 @@
 import { cn } from '@/libs/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 import { FaBug } from 'react-icons/fa';
 
 const configuration = [
@@ -12,8 +11,6 @@ const configuration = [
 ];
 
 export default function Navbar({ className }: { className?: string }) {
-  const [pending, setPending] = useState(false);
-  const [update, setUpdate] = useState(true);
   const currentPath = usePathname();
   return (
     <nav className='navbar navbar-center py-1 rounded-lg shadow bg-base-100'>
