@@ -4,7 +4,7 @@ import prisma from '@/prisma/client';
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { delay } from './delay';
+import { delay } from '../utils';
 
 // SERVER VALIDATION
 // Once client validation is complete, perform server validation here!
