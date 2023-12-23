@@ -1,4 +1,4 @@
-import Navbar from '@/components/navbar';
+import Navbar from '@/app/navbar';
 import type { Metadata } from 'next';
 import { Karla } from 'next/font/google';
 import './globals.css';
