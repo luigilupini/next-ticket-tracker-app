@@ -1,44 +1,91 @@
-'use client';
+"use client";
 
-import { cn } from '@/libs/utils';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { FaBug } from 'react-icons/fa';
+import { cn } from "@/libs/utils";
 
-const configuration = [
-  { href: '/', label: 'Dashboard' },
-  { href: '/issues', label: 'Issues' },
-];
+import { Avatar, Box, Container, DropdownMenu, Flex } from "@radix-ui/themes";
 
-export default function Navbar({ className }: { className?: string }) {
-  const currentPath = usePathname();
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { FaBug } from "react-icons/fa";
+
+export default function Navbar() {
   return (
-    <nav className='navbar navbar-center py-1 rounded-lg shadow bg-base-100'>
-      <div className='flex-1'>
-        <Link href='/' className='btn btn-ghost text-xl'>
-          <FaBug />
-        </Link>
-      </div>
-
-      <div className='flex-none'>
-        <ul className='menu menu-horizontal px-1 gap-2'>
-          {configuration.map(({ href, label }) => (
-            <li key={href}>
-              <Link
-                href={href}
-                // 👇🏻 Utils function takes 3 arguments (twMerge and clsx)
-                className={cn(
-                  'link no-underline opacity-70 hover:opacity-100', // 👈🏻 Merge with twMerge
-                  className, // 👈🏻 Incoming props applied by twMerge
-                  { 'opacity-100': currentPath === href } // 👈🏻 Conditional logic applied by clsx
-                )}
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <nav className="border-b mb-5 px-5 py-3 shadow">
+      <Container>
+        <Flex justify="between">
+          <Flex align="center" gap="6">
+            <Link href="/">
+              <FaBug />
+            </Link>
+            <NavLinks />
+          </Flex>
+          <AuthStatus />
+        </Flex>
+      </Container>
     </nav>
   );
 }
+
+const NavLinks = ({ classnames }: { classnames?: string }) => {
+  const currentPath = usePathname();
+
+  const links = [
+    { label: "Dashboard", href: "/" },
+    { label: "Issues", href: "/issues" },
+  ];
+
+  return (
+    <ul className="flex space-x-6">
+      {links.map((link) => (
+        <li key={link.href}>
+          <Link
+            className={cn("nav-link text-gray-400 text-sm", classnames, {
+              "text-gray-900": link.href === currentPath,
+            })}
+            href={link.href}
+          >
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+const AuthStatus = () => {
+  // const { status, data: session } = useSession();
+
+  // if (status === "loading") return <Skeleton width="3rem" />;
+
+  if (status === "unauthenticated")
+    return (
+      <Link className="nav-link" href="/api/auth/signin">
+        Login
+      </Link>
+    );
+
+  return (
+    <Box>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+          <Avatar
+            // src={session!.user!.image!}
+            fallback="?"
+            size="2"
+            radius="full"
+            className="cursor-pointer"
+            referrerPolicy="no-referrer"
+          />
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Label>
+            {/* <Text size="2">{session!.user!.email}</Text> */}
+          </DropdownMenu.Label>
+          <DropdownMenu.Item>
+            <Link href="/api/auth/signout">Log out</Link>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    </Box>
+  );
+};
