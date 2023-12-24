@@ -1,18 +1,18 @@
-'use server';
+"use server";
 
-import prisma from '@/prisma/client';
+import prisma from "@/prisma/client";
 
-import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
-import { delay } from '../utils';
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import { delay } from "../../libs/utils";
 
 // SERVER VALIDATION
 // Once client validation is complete, perform server validation here!
 export const addTodo = async (formData: FormData) => {
   // To test error handling update this line to formData.get('contentError')
-  const content = formData.get('content');
+  const content = formData.get("content");
   // const content = formData.get('contentError');
-  const title = formData.get('title');
+  const title = formData.get("title");
 
   await delay(1000);
 
@@ -30,7 +30,7 @@ export const addTodo = async (formData: FormData) => {
     };
   }
 
-  revalidatePath('/todos'); // We revalidate the cache for this page
+  revalidatePath("/todos"); // We revalidate the cache for this page
 };
 
 const todoSchema = z.object({
@@ -43,8 +43,8 @@ export type Todo = z.infer<typeof todoSchema>;
 // SERVER VALIDATION WITH ZOD
 export const createTodo = async (formData: FormData) => {
   const validate = todoSchema.safeParse({
-    title: formData.get('title') as string,
-    content: formData.get('content') as string,
+    title: formData.get("title") as string,
+    content: formData.get("content") as string,
   });
 
   await delay(1000);
@@ -54,7 +54,7 @@ export const createTodo = async (formData: FormData) => {
   if (!validate.success) {
     return {
       errors: validate.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Resource.',
+      message: "Missing Fields. Failed to Create Resource.",
     };
   }
 
@@ -73,7 +73,7 @@ export const createTodo = async (formData: FormData) => {
       message: err,
     };
   }
-  revalidatePath('/schema'); // We revalidate the cache for this page
+  revalidatePath("/schema"); // We revalidate the cache for this page
 };
 
 const readTodosSchema = z.object({

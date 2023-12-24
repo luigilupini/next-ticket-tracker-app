@@ -1,12 +1,10 @@
-import Navbar from "@/app/navbar";
 import type { Metadata } from "next";
-import { Karla } from "next/font/google";
 
-import { Theme } from "@radix-ui/themes";
-import "@radix-ui/themes/styles.css";
+import { GeistSans } from "geist/font/sans";
+
+import { ThemeProvider } from "@/context/theme-provider";
 import "./globals.css";
-
-const karla = Karla({ subsets: ["latin"], variable: "--font-karla" });
+import Navbar from "./navbar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,13 +17,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className="h-screen w-screen">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${GeistSans.className} h-screen w-screen antialiased`}
+    >
       <body className="h-full w-full">
-        <Theme appearance="dark" scaling="95%">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <Navbar />
-          <main className={`${karla.variable} p-5`}>{children}</main>
-          {/* <ThemePanel /> */}
-        </Theme>
+          <main className="p-5">{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );

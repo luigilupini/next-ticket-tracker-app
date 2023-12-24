@@ -1,17 +1,17 @@
 "use client";
 
-import { Button, TextArea, TextField } from "@radix-ui/themes";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 type Props = {};
 
 export default function IssueForm({}: Props) {
   return (
-    <div className="max-w-xl space-y-3">
-      <TextField.Root>
-        <TextField.Input placeholder="Title" />
-      </TextField.Root>
-      <TextArea placeholder="Description" />
-      <Button>Submit New Issue</Button>
-    </div>
+    <form className="max-w-xl space-y-3">
+      <Input placeholder="Title" />
+      <Textarea placeholder="Description" />
+      <Button>Submit Issue</Button>
+    </form>
   );
 }

@@ -1,5 +1,5 @@
-import { readIssues } from "@/libs/actions/issues";
-import { Button } from "@radix-ui/themes";
+import { Button } from "@/components/ui/button";
+import { readIssues } from "@/lib/actions/issues";
 import Link from "next/link";
 
 export default async function IssuesPage() {

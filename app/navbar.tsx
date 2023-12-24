@@ -1,8 +1,7 @@
 "use client";
 
-import { cn } from "@/libs/utils";
-
-import { Avatar, Box, Container, DropdownMenu, Flex } from "@radix-ui/themes";
+import { ModeToggle } from "@/components/mode-toggle";
+import { cn } from "@/lib/utils";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,18 +9,19 @@ import { FaBug } from "react-icons/fa";
 
 export default function Navbar() {
   return (
-    <nav className="border-b mb-5 px-5 py-3 shadow">
-      <Container>
-        <Flex justify="between">
-          <Flex align="center" gap="6">
-            <Link href="/">
-              <FaBug />
-            </Link>
-            <NavLinks />
-          </Flex>
+    <nav className="bg-muted/40 mb-5 px-5 py-3 shadow-sm">
+      <section className="flex justify-between items-center">
+        <div className="flex items-center justify-center gap-6">
+          <Link href="/">
+            <FaBug />
+          </Link>
+          <NavLinks />
+        </div>
+        <div className="flex items-center justify-center gap-6">
+          <ModeToggle />
           <AuthStatus />
-        </Flex>
-      </Container>
+        </div>
+      </section>
     </nav>
   );
 }
@@ -39,8 +39,8 @@ const NavLinks = ({ classnames }: { classnames?: string }) => {
       {links.map((link) => (
         <li key={link.href}>
           <Link
-            className={cn("nav-link text-gray-400 text-sm", classnames, {
-              "text-gray-900": link.href === currentPath,
+            className={cn("link text-sm", classnames, {
+              "text-muted-foreground": link.href !== currentPath,
             })}
             href={link.href}
           >
@@ -54,38 +54,36 @@ const NavLinks = ({ classnames }: { classnames?: string }) => {
 
 const AuthStatus = () => {
   // const { status, data: session } = useSession();
-
   // if (status === "loading") return <Skeleton width="3rem" />;
-
-  if (status === "unauthenticated")
-    return (
-      <Link className="nav-link" href="/api/auth/signin">
-        Login
-      </Link>
-    );
-
+  // if (status === "unauthenticated")
+  //   return (
+  //     <Link className="nav-link" href="/api/auth/signin">
+  //       Login
+  //     </Link>
+  //   );
   return (
-    <Box>
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger>
-          <Avatar
-            // src={session!.user!.image!}
-            fallback="?"
-            size="2"
-            radius="full"
-            className="cursor-pointer"
-            referrerPolicy="no-referrer"
-          />
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
-          <DropdownMenu.Label>
-            {/* <Text size="2">{session!.user!.email}</Text> */}
-          </DropdownMenu.Label>
-          <DropdownMenu.Item>
-            <Link href="/api/auth/signout">Log out</Link>
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
-    </Box>
+    <div>Account</div>
+    //   <Box>
+    //     <DropdownMenu.Root>
+    //       <DropdownMenu.Trigger>
+    //         <Avatar
+    //           // src={session!.user!.image!}
+    //           fallback="?"
+    //           size="2"
+    //           radius="full"
+    //           className="cursor-pointer"
+    //           referrerPolicy="no-referrer"
+    //         />
+    //       </DropdownMenu.Trigger>
+    //       <DropdownMenu.Content>
+    //         <DropdownMenu.Label>
+    //           {/* <Text size="2">{session!.user!.email}</Text> */}
+    //         </DropdownMenu.Label>
+    //         <DropdownMenu.Item>
+    //           <Link href="/api/auth/signout">Log out</Link>
+    //         </DropdownMenu.Item>
+    //       </DropdownMenu.Content>
+    //     </DropdownMenu.Root>
+    //   </Box>
   );
 };
