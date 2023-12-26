@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 
 import { GeistSans } from "geist/font/sans";
 
+import Navbar from "@/app/navbar";
 import { ThemeProvider } from "@/context/theme-provider";
 import "./globals.css";
-import Navbar from "./navbar";
 
 export const metadata: Metadata = {
   title: "Create Next App",

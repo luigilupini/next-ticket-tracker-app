@@ -1,4 +1,7 @@
+"use server";
+
 import prisma from "@/prisma/client";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const ReadIssueSchema = z.array(
@@ -16,20 +19,29 @@ export const readIssues = async () => {
 };
 
 const CreateIssueSchema = z.object({
-  title: z.string().min(1).max(255),
-  description: z.string().min(1),
+  title: z.string().min(1, "Title is required").max(100, "Title is too long"),
+  description: z
+    .string()
+    .min(1, "Description is required")
+    .max(250, "Description is too long"),
 });
 
 type CreateIssue = z.infer<typeof CreateIssueSchema>;
 
 export const createIssue = async (data: CreateIssue) => {
   const validate = CreateIssueSchema.safeParse(data);
-  if (!validate.success) throw new Error(validate.error.message);
+  if (!validate.success) {
+    console.log(validate.error.message);
+    throw new Error(validate.error.message);
+  }
+  const { title, description } = validate.data;
 
-  console.log(validate.data);
-
-  // const response = await prisma.issues.create({
-  //   data: validate.data,
-  // });
-  // return response;
+  const response = await prisma.issues.create({
+    data: {
+      title: title,
+      description: description,
+    },
+  });
+  console.log(response);
+  redirect("/issues");
 };
