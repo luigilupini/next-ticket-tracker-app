@@ -1,34 +1,37 @@
 "use client";
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createIssue } from "@/lib/actions/issues";
 import { useState } from "react";
+
+import { CreateIssueSchema } from "@/lib/schema/issues";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-// ...
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import "easymde/dist/easymde.min.css";
+
 import { AlertCircle } from "lucide-react";
-import SimpleMDE from "react-simplemde-editor";
 
-const formSchema = z.object({
-  title: z
-    .string()
-    .min(1, { message: "Hey the title is too short" })
-    .max(100, { message: "Hey the title is too long" }),
-  description: z
-    .string()
-    .min(5, { message: "Hey the description is too short" })
-    .max(100, { message: "Hey the description is too long" })
-    .trim(),
-});
+import ErrorMessage from "@/components/error-message";
+import { createIssue } from "@/lib/action/issues";
+import "easymde/dist/easymde.min.css";
+import dynamic from 'next/dynamic';
+const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false })
 
-type IssueForm = z.infer<typeof formSchema>;
+type IssueFormType = z.infer<typeof CreateIssueSchema>;
 
 export default function IssueForm() {
   const [error, setError] = useState<string | null>(null);
-  const { register, control, handleSubmit } = useForm<IssueForm>();
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IssueFormType>({
+    resolver: zodResolver(CreateIssueSchema),
+  });
 
   return (
     <div className="flex gap-4 flex-col max-w-xl">
@@ -45,20 +48,30 @@ export default function IssueForm() {
             await createIssue(data);
           } catch (err) {
             console.log(err);
-            setError("An expected error occurred. Please try again.");
+            setError("An expected error occurred in creating your issue!");
           }
         })}
         className="space-y-3"
       >
-        <Input placeholder="Title" {...register("title")} />
-
-        <Controller
-          name="description"
-          control={control}
-          render={({ field }) => (
-            <SimpleMDE placeholder="Description" {...field} />
+       <section className="relative">
+          <Input placeholder="Title" autoFocus={false} {...register("title")} />
+          {errors.title && (
+             <ErrorMessage>{errors.title.message}</ErrorMessage>
           )}
-        />
+       </section>
+
+        <section className="relative">
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => (
+              <SimpleMDE placeholder="Description" className="text-sm" {...field} />
+            )}
+          />
+          {errors.description && (
+           <ErrorMessage>{errors.description.message}</ErrorMessage>
+          )}
+        </section>
         <Button>Submit Issue</Button>
       </form>
     </div>

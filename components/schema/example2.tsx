@@ -1,6 +1,6 @@
 "use client";
 
-import { ReadTodos, createTodo } from "@/lib/actions/todos";
+import { ReadTodos, createTodo } from "@/lib/action/todos";
 import { useFormStatus } from "react-dom";
 
 // * SCHEMA VALIDATION FOR FORM SUBMISSION

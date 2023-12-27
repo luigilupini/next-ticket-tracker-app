@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { readIssues } from "@/lib/actions/issues";
+import { readIssues } from "@/lib/action/issues";
 import Link from "next/link";
 
 export default async function IssuesPage() {

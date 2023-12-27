@@ -1,5 +1,5 @@
 import Example4 from "@/components/schema/example4";
-import { ReadTodos, readTodos } from "@/lib/actions/todos";
+import { ReadTodos, readTodos } from "@/lib/action/todos";
 
 export default async function SchemaPage() {
   // prettier-ignore

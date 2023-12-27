@@ -1,6 +1,6 @@
 "use client";
 
-import { addTodo } from "@/lib/actions/todos";
+import { addTodo } from "@/lib/action/todos";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import Button from "./button";
