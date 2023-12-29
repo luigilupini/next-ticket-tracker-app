@@ -1,28 +1,33 @@
-"use client";
+"use client"
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { AlertCircle } from "lucide-react"
+import { Controller, useForm } from "react-hook-form"
+import { z } from "zod"
 
-import { CreateIssueSchema } from "@/lib/schema/issues";
+import { createIssue } from "@/lib/action/issues"
+import { CreateIssueSchema } from "@/lib/schema/issues"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import ErrorMessage from "@/components/error-message"
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import "easymde/dist/easymde.min.css"
 
-import { AlertCircle } from "lucide-react";
+import dynamic from "next/dynamic"
 
-import ErrorMessage from "@/components/error-message";
-import { createIssue } from "@/lib/action/issues";
-import "easymde/dist/easymde.min.css";
-import dynamic from 'next/dynamic';
-const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false })
+import Spinner from "@/components/spinner"
 
-type IssueFormType = z.infer<typeof CreateIssueSchema>;
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+})
+
+type IssueFormType = z.infer<typeof CreateIssueSchema>
 
 export default function IssueForm() {
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
     register,
@@ -31,51 +36,63 @@ export default function IssueForm() {
     formState: { errors },
   } = useForm<IssueFormType>({
     resolver: zodResolver(CreateIssueSchema),
-  });
+  })
 
   return (
-    <div className="flex gap-4 flex-col max-w-xl">
+    <div className="flex max-w-xl flex-col gap-4">
       {error && (
         <Alert className="bg-red-600">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle className="font-bold text-sm">Oops!</AlertTitle>
+          <AlertTitle className="text-sm font-bold">Oops!</AlertTitle>
           <AlertDescription className="text-xs">{error}</AlertDescription>
         </Alert>
       )}
       <form
         onSubmit={handleSubmit(async (data) => {
           try {
-            await createIssue(data);
+            setIsSubmitting(true)
+            await createIssue(data)
           } catch (err) {
-            console.log(err);
-            setError("An expected error occurred in creating your issue!");
+            console.log(err)
+            setIsSubmitting(false)
+            setError("An expected error occurred in creating your issue!")
           }
         })}
         className="space-y-3"
       >
-       <section className="relative">
+        <section className="relative">
           <Input placeholder="Title" autoFocus={false} {...register("title")} />
-          {errors.title && (
-             <ErrorMessage>{errors.title.message}</ErrorMessage>
-          )}
-       </section>
+          {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
+        </section>
 
         <section className="relative">
           <Controller
             name="description"
             control={control}
             render={({ field }) => (
-              <SimpleMDE placeholder="Description" className="text-sm" {...field} />
+              <SimpleMDE
+                placeholder="Description"
+                className="text-sm"
+                {...field}
+              />
             )}
           />
           {errors.description && (
-           <ErrorMessage>{errors.description.message}</ErrorMessage>
+            <ErrorMessage>{errors.description.message}</ErrorMessage>
           )}
         </section>
-        <Button>Submit Issue</Button>
+        <Button disabled={isSubmitting} className="relative w-44">
+          Submit Issue
+          {isSubmitting && (
+            <Spinner
+              className="absolute right-4 h-5 w-5"
+              stroke="stroke-secondary"
+            />
+          )}
+        </Button>
       </form>
     </div>
-  );
+  )
 }
 
 /* REACT HOOK FORM EXAMPLE
