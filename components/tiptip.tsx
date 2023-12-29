@@ -1,17 +1,27 @@
-"use client";
+"use client"
 
-import Heading from "@tiptap/extension-heading";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import Heading from "@tiptap/extension-heading"
+import { EditorContent, useEditor, type Editor } from "@tiptap/react"
+import StarterKit from "@tiptap/starter-kit"
+import {
+  Bold,
+  Heading2,
+  Italic,
+  List,
+  ListOrdered,
+  Strikethrough,
+} from "lucide-react"
 
-/ * * * * * * * * * * * * EDITOR * * * * * * * * * * * * /;
+import { Toggle } from "@/components/ui/toggle"
+
+;/ * * * * * * * * * * * * EDITOR * * * * * * * * * * * * /
 
 export function Tiptap({
   description,
   onChange,
 }: {
-  description?: string;
-  onChange?: (richText: string) => void;
+  description?: string
+  onChange?: (richText: string) => void
 }) {
   // ...
   const editor = useEditor({
@@ -28,38 +38,25 @@ export function Tiptap({
       },
     },
     onUpdate({ editor }) {
-      console.log(editor.getHTML()); // You can make it HTML, JSON, or Plain text!
+      console.log(editor.getHTML()) // You can make it HTML, JSON, or Plain text!
       // onChange(editor.getHTML());
     },
-  });
+  })
 
   return (
-    <div className="flex flex-col justify-stretch min-h-[250px] gap-2">
+    <div className="flex min-h-[250px] flex-col justify-stretch gap-2">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
-  );
+  )
 }
 
-/ * * * * * * * * * * * * TOOLBAR * * * * * * * * * * * * /;
-
-import { type Editor } from "@tiptap/react";
-
-import {
-  Bold,
-  Heading2,
-  Italic,
-  List,
-  ListOrdered,
-  Strikethrough,
-} from "lucide-react";
-
-import { Toggle } from "@/components/ui/toggle";
+;/ * * * * * * * * * * * * TOOLBAR * * * * * * * * * * * * /
 
 function Toolbar({ editor }: { editor: Editor | null }) {
-  if (!editor) return null;
+  if (!editor) return null
   return (
-    <div className="border border-input bg-transparent rounded-md">
+    <div className="rounded-md border border-input bg-transparent">
       <Toggle
         size="sm"
         pressed={editor.isActive("heading")}
@@ -110,5 +107,5 @@ function Toolbar({ editor }: { editor: Editor | null }) {
         <ListOrdered size={20} className="h-4 w-4" />
       </Toggle>
     </div>
-  );
+  )
 }

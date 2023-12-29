@@ -12,12 +12,11 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import ErrorMessage from "@/components/error-message"
+import Spinner from "@/components/spinner"
 
 import "easymde/dist/easymde.min.css"
 
 import dynamic from "next/dynamic"
-
-import Spinner from "@/components/spinner"
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
@@ -38,6 +37,17 @@ export default function IssueForm() {
     resolver: zodResolver(CreateIssueSchema),
   })
 
+  const onSubmit = async (data: IssueFormType) => {
+    try {
+      setIsSubmitting(true)
+      await createIssue(data)
+    } catch (err) {
+      console.log(err)
+      setIsSubmitting(false)
+      setError("An expected error occurred in creating your issue!")
+    }
+  }
+
   return (
     <div className="flex max-w-xl flex-col gap-4">
       {error && (
@@ -47,19 +57,7 @@ export default function IssueForm() {
           <AlertDescription className="text-xs">{error}</AlertDescription>
         </Alert>
       )}
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setIsSubmitting(true)
-            await createIssue(data)
-          } catch (err) {
-            console.log(err)
-            setIsSubmitting(false)
-            setError("An expected error occurred in creating your issue!")
-          }
-        })}
-        className="space-y-3"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <section className="relative">
           <Input placeholder="Title" autoFocus={false} {...register("title")} />
           {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
@@ -81,12 +79,13 @@ export default function IssueForm() {
             <ErrorMessage>{errors.description.message}</ErrorMessage>
           )}
         </section>
-        <Button disabled={isSubmitting} className="relative w-44">
+        <Button disabled={isSubmitting} className="relative w-44" size="sm">
           Submit Issue
           {isSubmitting && (
             <Spinner
               className="absolute right-4 h-5 w-5"
-              stroke="stroke-secondary"
+              strokeColor="stroke-secondary/80"
+              strokeWidth={8}
             />
           )}
         </Button>
