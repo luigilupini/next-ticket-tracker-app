@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { Status } from "@prisma/client"
 
 import { readIssues } from "@/lib/action/issues"
 import { Button } from "@/components/ui/button"
@@ -10,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import StatusBadge from "@/components/status-badge"
 
 export default async function IssuesPage() {
   const issues = await readIssues()
@@ -33,9 +35,7 @@ export default async function IssuesPage() {
               <TableRow key={issue.id} className="border-muted">
                 <TableCell>{issue.title}</TableCell>
                 <TableCell>
-                  <span className="rounded-md border bg-muted p-1 text-xs">
-                    {issue.status}
-                  </span>
+                  <StatusBadge status={issue.status as Status} />
                 </TableCell>
                 <TableCell className="text-right">
                   {issue.createdAt.toDateString()}
