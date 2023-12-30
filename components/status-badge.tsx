@@ -1,5 +1,7 @@
 import { Status } from "@prisma/client"
 
+import { cn } from "@/lib/utils"
+
 import { Badge } from "./ui/badge"
 
 const statusMap = {
@@ -9,11 +11,21 @@ const statusMap = {
   CLOSED: { label: "Closed", color: "bg-green-600/10 text-green-600" },
 }
 
-export default function StatusBadge({ status }: { status: Status }) {
+export default function StatusBadge({
+  status,
+  className,
+}: {
+  status: Status
+  className?: string
+}) {
   return (
     <Badge
       variant="secondary"
-      className={`${statusMap[status].color} text-xs font-semibold shadow-none`}
+      className={cn(
+        statusMap[status].color,
+        "text-xs font-semibold shadow-none",
+        className,
+      )}
     >
       {statusMap[status].label}
     </Badge>

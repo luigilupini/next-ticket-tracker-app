@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Status } from "@prisma/client"
 
 import { readIssues } from "@/lib/action/issues"
@@ -15,7 +16,7 @@ import IssueButton from "@/app/issues/issue-button"
 
 export default async function IssuesPage() {
   const issues = await readIssues()
-  await delay(4000) // Simulate network latency
+  await delay(1000) // Simulate network latency
   return (
     <main className="flex flex-col gap-6">
       <IssueButton />
@@ -31,7 +32,9 @@ export default async function IssuesPage() {
           <TableBody className="text-[13px]">
             {issues.map((issue) => (
               <TableRow key={issue.id} className="border-muted">
-                <TableCell>{issue.title}</TableCell>
+                <Link href={`/issues/${issue.id}`}>
+                  <TableCell>{issue.title}</TableCell>
+                </Link>
                 <TableCell>
                   <StatusBadge status={issue.status as Status} />
                 </TableCell>
