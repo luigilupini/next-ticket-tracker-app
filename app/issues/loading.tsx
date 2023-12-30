@@ -1,7 +1,5 @@
-import { Status } from "@prisma/client"
+import Skeleton from "react-loading-skeleton"
 
-import { readIssues } from "@/lib/action/issues"
-import { delay } from "@/lib/utils"
 import {
   Table,
   TableBody,
@@ -10,15 +8,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import StatusBadge from "@/components/status-badge"
-import IssueButton from "@/app/issues/issue-button"
 
-export default async function IssuesPage() {
-  const issues = await readIssues()
-  await delay(4000) // Simulate network latency
+import "react-loading-skeleton/dist/skeleton.css"
+
+import IssueButton from "./issue-button"
+
+export default function Loading() {
+  const issues = [1, 2, 3]
   return (
     <main className="flex flex-col gap-6">
-      <IssueButton />
+      <IssueButton disabled={true} />
       <div className="flex-1 overflow-hidden rounded-md border shadow-sm">
         <Table className="h-full">
           <TableHeader>
@@ -30,13 +29,15 @@ export default async function IssuesPage() {
           </TableHeader>
           <TableBody className="text-[13px]">
             {issues.map((issue) => (
-              <TableRow key={issue.id} className="border-muted">
-                <TableCell>{issue.title}</TableCell>
+              <TableRow key={issue} className="border-muted">
                 <TableCell>
-                  <StatusBadge status={issue.status as Status} />
+                  <Skeleton />
+                </TableCell>
+                <TableCell>
+                  <Skeleton />
                 </TableCell>
                 <TableCell className="max-w-7">
-                  {issue.createdAt.toDateString()}
+                  <Skeleton />
                 </TableCell>
               </TableRow>
             ))}
