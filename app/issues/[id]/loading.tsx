@@ -10,7 +10,10 @@ export default function Loading() {
         <Skeleton width="5rem" />
         <Skeleton width="8rem" />
       </Flex>
-      <Card className="prose" mt="4">
+      <Card
+        className="prose mt-4 rounded-lg border bg-muted/50 p-6 shadow"
+        mt="4"
+      >
         <Skeleton count={3} />
       </Card>
     </Box>

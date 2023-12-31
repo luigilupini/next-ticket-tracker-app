@@ -32,7 +32,7 @@ export default async function IssuesPage() {
           <TableBody className="text-[13px]">
             {issues.map((issue) => (
               <TableRow key={issue.id} className="border-muted">
-                <Link href={`/issues/${issue.id}`}>
+                <Link href={`/issues/${issue.id}`} className="link">
                   <TableCell>{issue.title}</TableCell>
                 </Link>
                 <TableCell>

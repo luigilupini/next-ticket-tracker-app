@@ -1,16 +1,16 @@
-"use client";
+"use client"
 
-import { ModeToggle } from "@/components/mode-toggle";
-import { cn } from "@/lib/utils";
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { FaBug } from "react-icons/fa"
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { FaBug } from "react-icons/fa";
+import { cn } from "@/lib/utils"
+import { ModeToggle } from "@/components/mode-toggle"
 
 export default function Navbar() {
   return (
-    <nav className="bg-muted/40 mb-5 px-5 py-3 shadow-sm">
-      <section className="flex justify-between items-center">
+    <nav className="mb-5 bg-muted px-5 py-3 shadow">
+      <section className="flex items-center justify-between">
         <div className="flex items-center justify-center gap-6">
           <Link href="/">
             <FaBug />
@@ -23,16 +23,16 @@ export default function Navbar() {
         </div>
       </section>
     </nav>
-  );
+  )
 }
 
 const NavLinks = ({ classnames }: { classnames?: string }) => {
-  const currentPath = usePathname();
+  const currentPath = usePathname()
 
   const links = [
     { label: "Dashboard", href: "/" },
     { label: "Issues", href: "/issues" },
-  ];
+  ]
 
   return (
     <ul className="flex space-x-6">
@@ -49,8 +49,8 @@ const NavLinks = ({ classnames }: { classnames?: string }) => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}
 
 const AuthStatus = () => {
   // const { status, data: session } = useSession();
@@ -85,5 +85,5 @@ const AuthStatus = () => {
     //       </DropdownMenu.Content>
     //     </DropdownMenu.Root>
     //   </Box>
-  );
-};
+  )
+}
