@@ -6,7 +6,7 @@ import { AlertCircle } from "lucide-react"
 import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { createIssue } from "@/lib/action/issues"
+import { createIssue, updateIssue } from "@/lib/action/issues"
 import { CreateIssueSchema } from "@/lib/schema/issues"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -16,15 +16,12 @@ import Spinner from "@/components/spinner"
 
 import "easymde/dist/easymde.min.css"
 
-import dynamic from "next/dynamic"
-
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-  ssr: false,
-})
+import { type Issues } from "@prisma/client"
+import SimpleMDE from "react-simplemde-editor"
 
 type IssueFormType = z.infer<typeof CreateIssueSchema>
 
-export default function IssueForm() {
+export default function IssueForm({ issue }: { issue?: Issues }) {
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -40,7 +37,8 @@ export default function IssueForm() {
   const onSubmit = async (data: IssueFormType) => {
     try {
       setIsSubmitting(true)
-      await createIssue(data)
+      if (issue) await updateIssue({ id: issue.id, ...data })
+      else await createIssue(data)
     } catch (err) {
       console.log(err)
       setIsSubmitting(false)
@@ -59,12 +57,18 @@ export default function IssueForm() {
       )}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         <section className="relative">
-          <Input placeholder="Title" autoFocus={false} {...register("title")} />
+          <Input
+            defaultValue={issue?.title}
+            placeholder="Title"
+            autoFocus={false}
+            {...register("title")}
+          />
           {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
         </section>
 
         <section className="relative">
           <Controller
+            defaultValue={issue?.description}
             name="description"
             control={control}
             render={({ field }) => (
@@ -80,7 +84,7 @@ export default function IssueForm() {
           )}
         </section>
         <Button disabled={isSubmitting} className="relative w-44" size="sm">
-          Submit Issue
+          {issue ? "Update Issue" : "Create Issue"}
           {isSubmitting && (
             <Spinner
               className="absolute right-4 h-5 w-5"
@@ -93,50 +97,3 @@ export default function IssueForm() {
     </div>
   )
 }
-
-/* REACT HOOK FORM EXAMPLE
-- We use register function to "register" our inputs with the useForm 🪝 so
-- that we can keep track of input values and errors within our form. The
-- function holds a input's `name`, `onChange`, `onBlur`, `ref` etc... We
-- spread these props onto our Input component {...register('title')}. If we
-- can't spread props into a component, use the <Controller /> component from
-- react-hook-form instead. This <Controller /> will take care of the input
-- registration for you when a component doesn't accept a forms props. Field
-- is a render prop that has all the same properties returned from register.
-
-const { register, control, handleSubmit } = useForm<IssueForm>();
-
-return (
-    <form
-      onSubmit={handleSubmit(async (data) => {
-        try {
-          await createIssue(data);
-        } catch (err) {
-          console.log(err);
-          setError("An expected error occurred. Please try again.");
-        }
-      })}
-      className="max-w-xl space-y-3"
-    >
-      <Input placeholder="Title" {...register("title")} />
-
-      <Controller
-        name="description"
-        control={control}
-        render={({ field }) => (
-          <SimpleMDE placeholder="Description" {...field} />
-        )}
-      />
-
-      // PROBLEM EXAMPLE
-      <SimpleMDE
-        {...register('description')} // Types of property 'onChange' are incompatible.
-      />
-      <Tiptap
-        {...register('description')} // Types of property 'onChange' are incompatible.
-      />
-      <Button>Submit Issue</Button>
-    </form>
-  );
-}
-*/

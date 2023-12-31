@@ -25,8 +25,8 @@ export default async function IssuesPage() {
           <TableHeader>
             <TableRow className="bg-muted">
               <TableHead>Issue</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="max-w-7">Created</TableHead>
+              <TableHead className="min-w-14 max-w-20">Status</TableHead>
+              <TableHead className="min-w-14 max-w-20">Created</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="text-[13px]">
@@ -35,10 +35,10 @@ export default async function IssuesPage() {
                 <Link href={`/issues/${issue.id}`} className="link">
                   <TableCell>{issue.title}</TableCell>
                 </Link>
-                <TableCell>
+                <TableCell className="min-w-14 max-w-20">
                   <StatusBadge status={issue.status as Status} />
                 </TableCell>
-                <TableCell className="max-w-7">
+                <TableCell className="min-w-14 max-w-20">
                   {issue.createdAt.toDateString()}
                 </TableCell>
               </TableRow>

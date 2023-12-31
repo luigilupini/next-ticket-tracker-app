@@ -5,7 +5,11 @@ import { redirect } from "next/navigation"
 import prisma from "@/prisma/client"
 
 // ...
-import { CreateIssueSchema, ReadIssueSchema } from "@/lib/schema/issues"
+import {
+  CreateIssueSchema,
+  ReadIssueSchema,
+  UpdateIssueSchema,
+} from "@/lib/schema/issues"
 
 import { delay } from "../utils"
 
@@ -35,6 +39,32 @@ export const createIssue = async (data: any) => {
       description: description,
     },
   })
+
+  console.log(response)
+  revalidatePath("/issues")
+  redirect("/issues")
+}
+
+export const updateIssue = async (data: any) => {
+  console.log(data)
+  const validate = UpdateIssueSchema.safeParse(data)
+
+  await delay(3000)
+
+  if (!validate.success) throw new Error(validate.error.message)
+
+  const { id, title, description } = validate.data
+
+  const response = await prisma.issues.update({
+    where: {
+      id: id,
+    },
+    data: {
+      title: title,
+      description: description,
+    },
+  })
+
   console.log(response)
   revalidatePath("/issues")
   redirect("/issues")

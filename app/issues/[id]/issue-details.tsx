@@ -12,7 +12,7 @@ export default function IssueDetails({ issue }: { issue: Issues }) {
     <Card className="w-[70%] border-primary/5 shadow-sm">
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
-          <CardTitle className="text-4xl uppercase">{issue.title}</CardTitle>
+          <CardTitle className="text-3xl font-medium">{issue.title}</CardTitle>
           <Link href={`/issues/${issue.id}/edit`}>
             <Button className="text-[13px]" variant="default" size="sm">
               <PenBoxIcon className="mr-2 h-4 w-4" />
