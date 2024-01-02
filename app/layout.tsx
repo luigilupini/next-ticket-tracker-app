@@ -3,7 +3,8 @@ import { Inter, Karla, Poppins } from "next/font/google"
 import { ThemeProvider } from "@/context/theme-provider"
 import { GeistSans } from "geist/font/sans"
 
-import Navbar from "@/app/navbar"
+import { Toaster } from "@/components/ui/toaster"
+import Navbar from "@/components/navbar"
 
 import "./globals.css"
 
@@ -36,7 +37,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
+
           <main className="p-5">{children}</main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

@@ -11,17 +11,26 @@ import { CreateIssueSchema } from "@/lib/schema/issues"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import ErrorMessage from "@/components/error-message"
 import Spinner from "@/components/spinner"
 
 import "easymde/dist/easymde.min.css"
 
-import { type Issues } from "@prisma/client"
+import { Issues, Status } from "@prisma/client"
 import SimpleMDE from "react-simplemde-editor"
 
 type IssueFormType = z.infer<typeof CreateIssueSchema>
 
-export default function IssueForm({ issue }: { issue?: Issues }) {
+export default function Form({ issue }: { issue?: Issues }) {
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -64,6 +73,40 @@ export default function IssueForm({ issue }: { issue?: Issues }) {
             {...register("title")}
           />
           {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
+        </section>
+
+        <section className="relative">
+          <Controller
+            defaultValue={issue?.status}
+            name="status"
+            control={control}
+            render={({ field }) => (
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <SelectTrigger className="w-[180px] cursor-pointer">
+                  <SelectValue placeholder="Select a status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Status</SelectLabel>
+                    {[Status.OPEN, Status.IN_PROGRESS, Status.CLOSED].map(
+                      (status) => (
+                        <SelectItem
+                          key={status}
+                          className="cursor-pointer"
+                          value={status}
+                        >
+                          {status.split("_").join(" ")}
+                        </SelectItem>
+                      ),
+                    )}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
+          {errors.status && (
+            <ErrorMessage>{errors.status.message}</ErrorMessage>
+          )}
         </section>
 
         <section className="relative">

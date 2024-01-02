@@ -2,11 +2,11 @@ import dynamic from "next/dynamic"
 import { notFound } from "next/navigation"
 import prisma from "@/prisma/client"
 
-import IssueFormSkeleton from "@/app/issues/issue-form-skeleton"
+import FormSkeleton from "@/components/issues/form-skeleton"
 
-const IssueForm = dynamic(() => import("@/app/issues/issue-form"), {
+const IssueForm = dynamic(() => import("@/components/issues/form"), {
   ssr: false,
-  loading: () => <IssueFormSkeleton />,
+  loading: () => <FormSkeleton />,
 })
 
 type Props = {

@@ -1,24 +1,18 @@
-import Link from "next/link"
 import { type Issues } from "@prisma/client"
-import { PenBoxIcon } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import StatusBadge from "@/components/status-badge"
 
-export default function IssueDetails({ issue }: { issue: Issues }) {
+import IssueButtons from "./detail-buttons"
+
+export default function DetailCard({ issue }: { issue: Issues }) {
   return (
-    <Card className="w-[70%] border-primary/5 shadow-sm">
+    <Card className="w-[70%] border-primary/5 bg-muted/30 shadow-sm">
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
           <CardTitle className="text-3xl font-medium">{issue.title}</CardTitle>
-          <Link href={`/issues/${issue.id}/edit`}>
-            <Button className="text-[13px]" variant="default" size="sm">
-              <PenBoxIcon className="mr-2 h-4 w-4" />
-              Edit Issue
-            </Button>
-          </Link>
+          <IssueButtons issue={issue} />
         </div>
         <div className="flex items-center gap-2">
           <StatusBadge status={issue.status} className="inline-block" />

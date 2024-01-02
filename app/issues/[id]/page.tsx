@@ -2,8 +2,7 @@ import { notFound } from "next/navigation"
 import prisma from "@/prisma/client"
 
 import { delay } from "@/lib/utils"
-
-import IssueDetails from "./issue-details"
+import DetailCard from "@/components/issues/detail-card"
 
 type Props = {
   params: { id: string }
@@ -17,7 +16,7 @@ export default async function IssueDetailPage({ params }: Props) {
   await delay(1000)
   return (
     <main>
-      <IssueDetails issue={issue} />
+      <DetailCard issue={issue} />
     </main>
   )
 }
