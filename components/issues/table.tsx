@@ -19,7 +19,7 @@ export default async function Table() {
   return (
     <ShadTable className="h-full">
       <TableHeader>
-        <TableRow className="bg-muted">
+        <TableRow className="bg-muted text-sm">
           <TableHead>Issue</TableHead>
           <TableHead className="min-w-14 max-w-20">Status</TableHead>
           <TableHead className="min-w-14 max-w-20">Created</TableHead>
