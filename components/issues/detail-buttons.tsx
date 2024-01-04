@@ -35,13 +35,13 @@ export default function IssueButtons({ issue }: { issue: Issues }) {
       router.refresh()
     } catch (err) {
       setIsDeleting(false)
+      console.log(err)
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
         action: <ToastAction altText="Goto schedule to undo">Undo</ToastAction>,
       })
-      console.log(err)
     }
   }
   return (

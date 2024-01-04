@@ -1,11 +1,9 @@
 import type { Metadata } from "next"
 import { Inter, Karla, Poppins } from "next/font/google"
 import { auth } from "@/auth"
-import { ThemeProvider } from "@/context/theme-provider"
+import ProviderTree from "@/context/provider-tree"
 import { GeistSans } from "geist/font/sans"
-import { SessionProvider } from "next-auth/react"
 
-import { Toaster } from "@/components/ui/toaster"
 import Navbar from "@/components/navbar"
 
 import "./globals.css"
@@ -30,22 +28,13 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geist.className} h-screen w-screen`}
+      className={`${karla.className} h-screen w-screen`}
     >
       <body className="h-full w-full">
-        <SessionProvider session={session}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Navbar />
-
-            <main className="p-5">{children}</main>
-            <Toaster />
-          </ThemeProvider>
-        </SessionProvider>
+        <ProviderTree session={session}>
+          <Navbar />
+          <main className="p-5">{children}</main>
+        </ProviderTree>
       </body>
     </html>
   )

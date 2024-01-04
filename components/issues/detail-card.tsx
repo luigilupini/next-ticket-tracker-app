@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import StatusBadge from "@/components/status-badge"
 
+import AssigneeSelect from "./assignee-select"
 import IssueButtons from "./detail-buttons"
 
 export default function DetailCard({ issue }: { issue: Issues }) {
@@ -12,6 +13,7 @@ export default function DetailCard({ issue }: { issue: Issues }) {
       <CardHeader>
         <div className="flex items-center justify-between gap-2">
           <CardTitle className="text-3xl font-medium">{issue.title}</CardTitle>
+          <AssigneeSelect issue={issue} />
           <IssueButtons issue={issue} />
         </div>
         <div className="flex items-center gap-2">

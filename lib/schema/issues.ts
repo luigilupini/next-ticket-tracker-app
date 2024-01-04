@@ -8,6 +8,8 @@ export const ReadIssueSchema = z.array(
     description: z.string(),
     status: z.string(),
     createdAt: z.date(),
+    updatedAt: z.date(),
+    assignedToUserId: z.string().nullable(),
   }),
 )
 
@@ -18,7 +20,7 @@ export const CreateIssueSchema = z.object({
   description: z
     .string()
     .min(5, "Description is required")
-    .max(250, "Description is too long"),
+    .max(65535, "Description is too long"),
   status: statusEnum,
 })
 
@@ -28,6 +30,16 @@ export const UpdateIssueSchema = z.object({
   description: z
     .string()
     .min(5, "Description is required")
-    .max(250, "Description is too long"),
+    .max(65535, "Description is too long"),
   status: statusEnum,
+})
+
+export const PatchIssueSchema = z.object({
+  id: z.number(),
+  assignedToUserId: z
+    .string()
+    .min(1, "User assignment required")
+    .max(100)
+    .optional()
+    .nullable(),
 })
