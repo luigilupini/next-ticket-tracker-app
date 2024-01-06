@@ -1,3 +1,13 @@
-export default function HomePage() {
-  return <main>Home Page</main>;
+import { LatestIssues } from "@/components/home/cards"
+
+export default function HomePage({
+  searchParams,
+}: {
+  searchParams: { page: string }
+}) {
+  return (
+    <main>
+      <LatestIssues />
+    </main>
+  )
 }

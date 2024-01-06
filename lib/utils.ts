@@ -1,14 +1,17 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { clsx, type ClassValue } from "clsx"
+import moment from "moment"
+import { twMerge } from "tailwind-merge"
 
-export const delay = (time: number) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(1), time);
-  });
+export const delay = (time: number) => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(1), time)
+  })
+}
 
 export const cn = (...inputs: ClassValue[]) => {
-  return twMerge(clsx(inputs));
-};
+  return twMerge(clsx(inputs))
+}
+
 /* EXAMPLE
 <Link
 	href={href}
@@ -21,3 +24,14 @@ export const cn = (...inputs: ClassValue[]) => {
 	{label}
 </Link>
 */
+
+export const lastSeen = (time: Date) => {
+  return moment(time, "YYYY-MM-DD HH:mm:ss").fromNow()
+}
+
+let currentSortOrder = "asc"
+export const toggleSortOrder = () => {
+  currentSortOrder = currentSortOrder === "asc" ? "desc" : "asc"
+  console.log(currentSortOrder)
+  return currentSortOrder
+}
