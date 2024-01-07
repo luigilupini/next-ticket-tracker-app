@@ -71,6 +71,7 @@ export default function Form({ issue }: { issue?: Issues }) {
             placeholder="Title"
             autoFocus={false}
             {...register("title")}
+            className="h-9"
           />
           {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
         </section>

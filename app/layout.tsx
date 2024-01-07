@@ -1,17 +1,13 @@
 import type { Metadata } from "next"
-import { Inter, Karla, Poppins } from "next/font/google"
+import { Karla } from "next/font/google"
 import { auth } from "@/auth"
 import ProviderTree from "@/context/provider-tree"
-import { GeistSans } from "geist/font/sans"
 
 import Navbar from "@/components/navbar"
 
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] })
 const karla = Karla({ subsets: ["latin"] })
-const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600"] })
-const geist = GeistSans
 
 export const metadata: Metadata = {
   title: "Create Next App",

@@ -10,7 +10,7 @@ import { NewIssue } from "@/components/issues/buttons"
 import Skeleton from "@/components/skeleton"
 
 export default function Loading() {
-  const issues = [1, 2, 3]
+  const issues = [1, 2, 3, 4, 5, 6]
   return (
     <main className="flex flex-col gap-6">
       <NewIssue disabled={true} />
@@ -21,6 +21,7 @@ export default function Loading() {
               <TableHead>Issue</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="max-w-7">Created</TableHead>
+              <TableHead className="max-w-7">Updated</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="text-[13px]">
@@ -30,6 +31,9 @@ export default function Loading() {
                   <Skeleton />
                 </TableCell>
                 <TableCell>
+                  <Skeleton />
+                </TableCell>
+                <TableCell className="max-w-7">
                   <Skeleton />
                 </TableCell>
                 <TableCell className="max-w-7">
