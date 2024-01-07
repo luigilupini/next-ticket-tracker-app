@@ -20,7 +20,7 @@ import { ModeToggle } from "@/components/mode-toggle"
 
 export default function Navbar() {
   return (
-    <nav className="mb-5 border-b px-5 py-3">
+    <nav className="border-b px-5 py-3">
       <section className="flex items-center justify-between">
         <div className="flex items-center justify-center gap-6">
           <Link href="/">

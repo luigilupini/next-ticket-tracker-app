@@ -30,10 +30,10 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${karla.className} h-screen w-screen`}
     >
-      <body className="h-full w-full">
+      <body className="flex h-full w-full flex-col">
         <ProviderTree session={session}>
           <Navbar />
-          <main className="p-5">{children}</main>
+          <main className="flex-1 p-5">{children}</main>
         </ProviderTree>
       </body>
     </html>
