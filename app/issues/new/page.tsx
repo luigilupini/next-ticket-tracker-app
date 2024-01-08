@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import dynamic from "next/dynamic"
 
 import FormSkeleton from "@/components/issues/form-skeleton"
@@ -10,7 +11,9 @@ const IssueForm = dynamic(() => import("@/components/issues/form"), {
 export default function NewIssuePage() {
   return (
     <main className="mx-auto">
-      <IssueForm />
+      <Suspense fallback={<FormSkeleton />}>
+        <IssueForm />
+      </Suspense>
     </main>
   )
 }

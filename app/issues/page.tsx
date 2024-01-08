@@ -1,9 +1,11 @@
+import { Suspense } from "react"
 import { Issues, Status } from "@prisma/client"
 import { z } from "zod"
 
 import ErrorBanner from "@/components/error-banner"
 import { NewIssue } from "@/components/issues/buttons"
 import { FilterByStatus } from "@/components/issues/filters"
+import { TableSkeleton } from "@/components/issues/skeletons"
 import IssuesTable from "@/components/issues/table"
 
 export type IssueParams = {
@@ -39,7 +41,9 @@ export default async function IssuesPage({ searchParams }: Props) {
         <NewIssue />
       </nav>
 
-      <IssuesTable searchParams={searchParams} />
+      <Suspense fallback={<TableSkeleton />}>
+        <IssuesTable searchParams={searchParams} />
+      </Suspense>
     </main>
   )
 }

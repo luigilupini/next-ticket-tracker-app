@@ -45,6 +45,7 @@ export default function AssigneeSelect({ issue }: { issue: Issues }) {
         variant: "default",
         title: "Success!",
         description: "Issue assigned to user.",
+        className: "bg-green-500",
       })
     } catch (err) {
       toast({

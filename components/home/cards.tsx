@@ -87,7 +87,7 @@ export function IssueSummary({ open, progress, closed }: Props) {
       {containers.map(({ status, label, value }) => (
         <Card
           key={label}
-          className="h-full w-full border shadow-none transition-shadow duration-200 ease-in-out hover:shadow-md"
+          className="h-full w-full border shadow-none transition-all duration-200 ease-in-out hover:shadow-md hover:ring-2 hover:ring-primary/50"
         >
           <Link
             href={`/issues?status=${status}`}

@@ -25,7 +25,7 @@ export default async function IssuesTable({
   let orderBy = searchParams?.orderBy
   let status = searchParams?.status
   let page = parseInt(searchParams.page || "1")
-  const pageSize = 6
+  const pageSize = 10
 
   // prettier-ignore
   const issues = await readIssues({

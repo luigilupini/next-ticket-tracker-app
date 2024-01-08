@@ -1,3 +1,5 @@
+import { Box, Card, Flex } from "@radix-ui/themes"
+
 import {
   Table,
   TableBody,
@@ -6,14 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { NewIssue } from "@/components/issues/buttons"
 import Skeleton from "@/components/skeleton"
 
-export default function Loading() {
-  const issues = [1, 2, 3, 4, 5, 6]
+export function TableSkeleton() {
+  const issues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
   return (
     <main className="flex flex-col gap-6">
-      <NewIssue disabled={true} />
       <div className="flex-1 overflow-hidden rounded-md border shadow-sm">
         <Table className="h-full">
           <TableHeader>
@@ -45,5 +45,34 @@ export default function Loading() {
         </Table>
       </div>
     </main>
+  )
+}
+
+export function CardSkeleton() {
+  return (
+    <Box className="max-w-xl">
+      <Skeleton />
+      <Flex className="space-x-3" my="2">
+        <Skeleton width="5rem" />
+        <Skeleton width="8rem" />
+      </Flex>
+      <Card
+        className="prose mt-4 rounded-lg border bg-muted/50 p-6 shadow"
+        mt="4"
+      >
+        <Skeleton count={3} />
+      </Card>
+    </Box>
+  )
+}
+
+export function FormSkeleton() {
+  return (
+    <Box className="mt-1 flex max-w-xl flex-col gap-2">
+      <Skeleton height="2rem" />
+      <Skeleton height="2rem" width="11rem" />
+      <Skeleton height="24rem" />
+      <Skeleton height="2rem" width="11rem" className="mt-8" />
+    </Box>
   )
 }

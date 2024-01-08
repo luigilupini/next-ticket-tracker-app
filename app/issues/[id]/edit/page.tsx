@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import dynamic from "next/dynamic"
 import { notFound } from "next/navigation"
 import prisma from "@/prisma/client"
@@ -22,7 +23,9 @@ export default async function EditIssuePage({ params }: Props) {
   if (!issue) notFound()
   return (
     <main className="mx-auto">
-      <IssueForm issue={issue} />
+      <Suspense fallback={<FormSkeleton />}>
+        <IssueForm issue={issue} />
+      </Suspense>
     </main>
   )
 }
