@@ -1,14 +1,55 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "Status" AS ENUM ('OPEN', 'IN_PROGRESS', 'CLOSED');
 
-  - You are about to drop the `Todos` table. If the table is not empty, all the data it contains will be lost.
+-- CreateTable
+CREATE TABLE "customers" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "email" VARCHAR(255) NOT NULL,
+    "image_url" VARCHAR(255) NOT NULL,
 
-*/
--- AlterTable
-ALTER TABLE "Issues" ADD COLUMN     "assignedToUserId" VARCHAR(255);
+    CONSTRAINT "customers_pkey" PRIMARY KEY ("id")
+);
 
--- DropTable
-DROP TABLE "Todos";
+-- CreateTable
+CREATE TABLE "invoices" (
+    "id" TEXT NOT NULL,
+    "customer_id" UUID NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "status" VARCHAR(255) NOT NULL,
+    "date" DATE NOT NULL,
+
+    CONSTRAINT "invoices_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "revenue" (
+    "month" VARCHAR(4) NOT NULL,
+    "revenue" INTEGER NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "users" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Issues" (
+    "id" SERIAL NOT NULL,
+    "title" VARCHAR(255) NOT NULL,
+    "description" TEXT NOT NULL,
+    "status" "Status" NOT NULL DEFAULT 'OPEN',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "assignedToUserId" VARCHAR(255),
+
+    CONSTRAINT "Issues_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -55,6 +96,12 @@ CREATE TABLE "VerificationToken" (
     "token" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "revenue_month_key" ON "revenue"("month");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
